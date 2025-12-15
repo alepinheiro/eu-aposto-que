@@ -26,7 +26,7 @@
         </div>
 
         <!-- Main Content Slot -->
-        <div class="relative z-10 flex-grow flex items-center justify-center py-8">
+        <div class="relative z-10 grow flex items-center justify-center py-8">
           <div class="text-center font-anton text-5xl md:text-6xl text-[#fef3c7] drop-shadow-[4px_4px_0px_rgba(22,78,99,1)] uppercase leading-tight transform rotate-1">
             <slot>
               {{ children }}
@@ -71,7 +71,7 @@
 </template>
 
 <script setup lang="ts">
-import html2canvas from 'html2canvas';
+import html2canvas from 'html2canvas-pro';
 
 interface Props {
   header?: string;

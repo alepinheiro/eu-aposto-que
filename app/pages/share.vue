@@ -1,6 +1,6 @@
 <template>
-  <div class="flex items-center gap-5 min-h-screen justify-center ">
-    <div class="m-auto max-w-5xl flex gap-2 w-full">
+  <div class="flex  items-center gap-5 min-h-screen justify-center ">
+    <div class="m-auto max-w-5xl flex sm:flex-col gap-2 w-full">
       <form
         class="flex gap-5 w-full "
         @submit="onSubmit"
