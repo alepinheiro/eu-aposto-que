@@ -1,0 +1,44 @@
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+dist
+
+# Node dependencies
+node_modules
+
+# Logs
+logs
+*.log
+
+# Misc
+.DS_Store
+.fleet
+.idea
+
+# Local env files
+.env
+.env.*
+!.env.example
+# VSCode
+.vscode/
+
+# ESLint
+.eslintcache
+
+# MongoDB
+dump/
+*.mongodb
+*.mongo
+
+# Nuxt 4 (adicional)
+.nuxt/
+nuxt.d.ts
+nitro/
+
+# Vercel
+.vercel/
+vercel.json
+
