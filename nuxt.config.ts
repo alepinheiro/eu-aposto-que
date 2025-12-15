@@ -13,6 +13,10 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ['./app/assets/css/main.css'],
   compatibilityDate: '2025-07-15',
+  // Configuração para deploy na Vercel
+  nitro: {
+    preset: 'vercel',
+  },
   vite: {
     plugins: [
       tailwindcss(),
