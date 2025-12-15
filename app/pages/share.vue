@@ -1,6 +1,6 @@
 <template>
   <div class="flex  items-center gap-5 min-h-screen justify-center ">
-    <div class="m-auto max-w-5xl flex sm:flex-col gap-2 w-full">
+    <div class="m-auto max-w-5xl flex md:flex-row flex-col gap-2 w-full">
       <form
         class="flex gap-5 w-full "
         @submit="onSubmit"
@@ -122,7 +122,7 @@
         {{ betStore.title || 'O Brasil vai ganhar a copa de 2026' }}
 
         <template #footer>
-          Toque para participar!
+          Dê o seu palpite em eu-aposto-que.vercel.app!
         </template>
       </PreviewCard>
     </div>
