@@ -24,4 +24,8 @@ export class BetService {
   async disagree(id: string): Promise<BetEntity | null> {
     return this.betRepository.disagree(id);
   }
+
+  async getFeed(limit = 20, skip = 0): Promise<BetEntity[]> {
+    return this.betRepository.getFeed(limit, skip);
+  }
 }

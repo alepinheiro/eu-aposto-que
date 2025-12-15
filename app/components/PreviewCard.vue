@@ -8,6 +8,7 @@
 
     <CardContent class="h-full">
       <div
+        id="preview"
         :class="['w-full h-full bg-[#0e7490] aspect-9/16 relative overflow-hidden rounded-md border drop-shadow-lg flex flex-col items-center justify-between p-6', customClass]"
       >
         <!-- Background Decor Elements -->
@@ -57,14 +58,21 @@
       </div>
     </CardContent>
     <CardFooter>
-      <Button class="w-full">
-        Compartilhar
+      <Button
+        class="w-full"
+        :disabled="isSharing"
+        @click="handleShare"
+      >
+        <span v-if="!isSharing">Compartilhar</span>
+        <span v-else>Gerando imagem...</span>
       </Button>
     </CardFooter>
   </Card>
 </template>
 
 <script setup lang="ts">
+import html2canvas from 'html2canvas';
+
 interface Props {
   header?: string;
   children?: string;
@@ -78,6 +86,46 @@ withDefaults(defineProps<Props>(), {
   footer: '',
   customClass: '',
 });
+
+const isSharing = ref(false);
+
+async function handleShare() {
+  if (isSharing.value) return;
+  isSharing.value = true;
+  try {
+    const preview = document.getElementById('preview');
+    if (!preview) throw new Error('Preview não encontrado');
+    const canvas = await html2canvas(preview, { backgroundColor: null });
+    const blob = await new Promise<Blob | null>(resolve => canvas.toBlob(resolve, 'image/png'));
+    if (!blob) throw new Error('Falha ao gerar imagem');
+    const file = new File([blob], 'palpite.png', { type: 'image/png' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({
+        files: [file],
+        title: 'Meu palpite',
+        text: 'Veja meu palpite no Eu Aposto Que...',
+      });
+    }
+    else {
+      // fallback: download
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'palpite.png';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      alert('Compartilhamento não suportado. Imagem baixada.');
+    }
+  }
+  catch (e) {
+    alert('Erro ao compartilhar: ' + (e instanceof Error ? e.message : e));
+  }
+  finally {
+    isSharing.value = false;
+  }
+}
 </script>
 
 <style scoped>

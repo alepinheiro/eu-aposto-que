@@ -16,9 +16,9 @@ export default defineEventHandler(async (event) => {
     });
     return { bet };
   }
-  catch (err: any) {
-    if (err instanceof ValidationError || err.name === 'ZodError') {
-      return { error: 'Invalid input', details: err.errors || err.message };
+  catch (err) {
+    if (err instanceof ValidationError || (err as any).name === 'ZodError') {
+      return { error: 'Invalid input', details: (err as any).errors || (err as any).message };
     }
     return { error: 'Internal server error' };
   }

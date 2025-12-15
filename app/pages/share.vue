@@ -77,7 +77,7 @@
               name="deadlineDate"
             >
               <Label>
-                Data limite para palpites
+                Data limite para palpites (opcional)
               </Label>
               <FormBetDeadlineDate
                 v-bind="componentField"
@@ -90,7 +90,7 @@
               name="deadlineHour"
             >
               <Label>
-                Hora limite para palpites
+                Hora limite para palpites (opcional)
               </Label>
               <FormBetDeadlineHour
                 v-bind="componentField"
@@ -135,7 +135,7 @@ import { useBetStore } from '~/stores/bet.store';
 
 const betStore = useBetStore();
 
-const { handleSubmit, setFieldValue } = useForm({
+const { handleSubmit } = useForm({
   validationSchema: z.object({
     statement: z.string().min(5, 'O título deve ter no mínimo 5 caracteres'),
     description: z.string().min(3, 'A descrição deve ter no mínimo 5 caracteres').optional(),

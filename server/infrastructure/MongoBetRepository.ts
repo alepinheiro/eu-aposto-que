@@ -58,4 +58,15 @@ export class MongoBetRepository implements BetRepository {
       disagreeCount: doc.disagreeCount,
     };
   }
+
+  async getFeed(limit = 20, skip = 0): Promise<BetEntity[]> {
+    const db = await getMongoDb();
+    const pipeline = [
+      { $sort: { createdAt: -1 } },
+      { $skip: skip },
+      { $limit: limit },
+    ];
+    const docs = await db.collection(this.collectionName).aggregate(pipeline).toArray();
+    return docs.map(this.map);
+  }
 }
