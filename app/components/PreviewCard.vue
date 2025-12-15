@@ -104,6 +104,7 @@ async function handleShare() {
         files: [file],
         title: 'Meu palpite',
         text: 'Veja meu palpite no Eu Aposto Que...',
+        url: window.location.href,
       });
     }
     else {
