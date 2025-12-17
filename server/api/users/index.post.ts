@@ -1,8 +1,12 @@
 import { UserService } from '~~/server/domain/services/UserService';
-import { UserSchema } from '~~/server/domain/UserSchema';
 import { MongoUserRepository } from '~~/server/infrastructure/MongoUserRepository';
+import { UserSchema } from '~~/shared/UserSchema';
 
-const CreateUserInput = UserSchema.omit({ id: true, createdAt: true, updatedAt: true });
+const CreateUserInput = UserSchema.omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -12,6 +16,6 @@ export default defineEventHandler(async (event) => {
   }
   const repo = new MongoUserRepository();
   const service = new UserService(repo);
-  const user = await service.createUser(parse.data);
+  const user = await service.register(parse.data);
   return { status: 201, user };
 });
