@@ -113,25 +113,25 @@ const { data: bet } = await useFetch<Bet>(() => `/api/bets/${id}`, {
 
 useSeoMeta({
   title: () => {
-    if (bet.value?.statement) {
+    if (bet.value) {
       return `Aposta: ${bet.value.statement}`;
     }
     return 'Detalhes da aposta';
   },
   ogTitle: () => {
-    if (bet.value?.statement) {
+    if (bet.value) {
       return `Aposta: ${bet.value.statement}`;
     }
     return 'Detalhes da aposta';
   },
   description: () => {
-    if (bet.value?.agreeCount && bet.value?.disagreeCount) {
+    if (bet.value) {
       return `"${bet.value.agreeCount} pessoas concordam e ${bet.value.disagreeCount} pessoas discordam. Qual é a sua opinião?"`;
     }
     return 'Veja os detalhes desta aposta.';
   },
   ogDescription: () => {
-    if (bet.value?.agreeCount && bet.value?.disagreeCount) {
+    if (bet.value) {
       return `"${bet.value.agreeCount} pessoas concordam e ${bet.value.disagreeCount} pessoas discordam. Qual é a sua opinião?"`;
     }
     return 'Veja os detalhes desta aposta.';
