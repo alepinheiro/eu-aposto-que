@@ -18,7 +18,8 @@ useSeoMeta({
   description: 'Desafie seus amigos com perguntas divertidas e veja quem acerta mais!',
   ogTitle: 'Eu aposto que...',
   ogDescription: 'Desafie seus amigos com perguntas divertidas e veja quem acerta mais!',
-  ogImage: 'https://eu-aposto-que.vercel.app/og-image.png',
+  ogImage: 'https://eu-aposto-que.vercel.app/og-image.webp',
   twitterCard: 'summary_large_image',
+  ogLocale: 'pt_BR',
 });
 </script>
