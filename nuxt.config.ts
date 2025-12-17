@@ -9,9 +9,19 @@ export default defineNuxtConfig({
     '@vee-validate/nuxt',
     '@pinia/nuxt',
     'pinia-plugin-persistedstate/nuxt',
+    'nuxt-auth-utils',
   ],
   devtools: { enabled: true },
   css: ['./app/assets/css/main.css'],
+  runtimeConfig: {
+    public: {
+      appName: 'Eu Aposto Que...',
+    },
+    private: {
+      MONGODB_URI: process.env.MONGODB_URI,
+      MONGODB_DB_NAME: process.env.MONGODB_DB_NAME,
+    },
+  },
   compatibilityDate: '2025-07-15',
   // Configuração para deploy na Vercel
   nitro: {
