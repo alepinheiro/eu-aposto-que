@@ -25,5 +25,12 @@
 <script setup lang="ts">
 import type { Bet } from '~~/shared/BetSchema';
 
-const { data: bets, status } = await useFetch<Bet[]>('/api/bets/feed');
+interface Props extends Bet {
+  commentCount: number;
+  reactionCount: number;
+  participationCount: number;
+  userParticipated: boolean;
+}
+
+const { data: bets, status } = await useFetch<Props[]>('/api/bets/feed');
 </script>

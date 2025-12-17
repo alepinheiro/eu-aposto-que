@@ -5,8 +5,17 @@
         <CardTitle>
           {{ bet.statement }}
         </CardTitle>
+        <Badge
+          v-if="bet.userParticipated"
+          variant="secondary"
+          class="bg-green-500 text-white dark:bg-green-600"
+        >
+          <Check />
+          Participando
+        </Badge>
 
         <Badge
+          v-else
           variant="secondary"
           class="bg-blue-500 text-white dark:bg-blue-600"
         >
@@ -24,15 +33,15 @@
       <div class="flex gap-2 text-sm">
         <div class="flex gap-2 ">
           <Users class="size-4" />
-          0
+          {{ bet.participationCount || 0 }}
         </div>
         <div class="flex gap-2 ">
           <Heart class="size-4" />
-          0
+          {{ bet.reactionCount || 0 }}
         </div>
         <div class="flex gap-2 ">
           <MessageCircle class="size-4" />
-          0
+          {{ bet.commentCount || 0 }}
         </div>
       </div>
 
@@ -44,10 +53,15 @@
 </template>
 
 <script setup lang="ts">
-import { BadgeCheckIcon, Heart, MessageCircle, Users } from 'lucide-vue-next';
+import { BadgeCheckIcon, Check, Heart, MessageCircle, Users } from 'lucide-vue-next';
 import type { Bet } from '~~/shared/BetSchema';
 
-defineProps<{
-  bet: Bet;
-}>();
+interface Props extends Bet {
+  commentCount: number;
+  reactionCount: number;
+  participationCount: number;
+  userParticipated: boolean;
+}
+
+defineProps<{ bet: Props }>();
 </script>
