@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col md:flex-row gap-2 w-full">
+  <div class="flex flex-col  gap-2 w-full">
     <Button
       class="w-full border-green-200 border-2 text-green-600"
       variant="outline"

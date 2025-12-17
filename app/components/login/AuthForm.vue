@@ -57,6 +57,10 @@
 import { toast } from 'vue-sonner';
 import { LoginSchema } from '~~/shared/UserSchema';
 
+const props = defineProps<{
+  redirect?: string;
+}>();
+
 const { handleSubmit } = useForm({
   validationSchema: toTypedSchema(LoginSchema),
 });
@@ -80,7 +84,7 @@ const onSubmit = handleSubmit (
     });
 
     if (response.success)
-      await navigateTo('/share');
+      await navigateTo(props.redirect || '/share');
   },
   error =>
     console.error(error),

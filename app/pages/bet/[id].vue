@@ -17,14 +17,24 @@
         </div>
       </CardHeader>
 
-      <CardContent>
-        <DetailsParticipationButtons :bet-id="bet?.id" />
+      <CardContent v-if="bet">
+        <DetailsParticipationButtons
+          v-if="loggedIn"
+          :bet-id="bet.id"
+        />
+        <Button
+          v-else
+          class="w-full"
+          @click="navigateTo(`/login?redirect=${route.fullPath}`)"
+        >
+          Faça login para participar
+        </Button>
       </CardContent>
 
       <CardFooter>
-        <div>
+        <p class="text-sm text-gray-500">
           Criada em: {{ new Date(bet?.createdAt || '').toLocaleDateString() }}
-        </div>
+        </p>
       </CardFooter>
     </Card>
 
@@ -94,7 +104,9 @@ import type { Bet } from '~~/shared/BetSchema';
 
 const route = useRoute();
 const id = route.params.id as string;
+const { loggedIn, fetch } = useUserSession();
 
+await fetch();
 const { data: bet } = await useFetch<Bet>(() => `/api/bets/${id}`, {
   method: 'GET',
 });
@@ -113,20 +125,19 @@ useSeoMeta({
     return 'Detalhes da aposta';
   },
   description: () => {
-    if (bet.value?.statement) {
-      return `Veja os detalhes e participe da aposta: "${bet.value.statement}".`;
+    if (bet.value?.agreeCount && bet.value?.disagreeCount) {
+      return `"${bet.value.agreeCount} pessoas concordam e ${bet.value.disagreeCount} pessoas discordam. Qual é a sua opinião?"`;
     }
     return 'Veja os detalhes desta aposta.';
   },
   ogDescription: () => {
-    if (bet.value?.statement) {
-      return `Veja os detalhes e participe da aposta: "${bet.value.statement}".`;
+    if (bet.value?.agreeCount && bet.value?.disagreeCount) {
+      return `"${bet.value.agreeCount} pessoas concordam e ${bet.value.disagreeCount} pessoas discordam. Qual é a sua opinião?"`;
     }
     return 'Veja os detalhes desta aposta.';
   },
   ogType: 'article',
   ogUrl: `https://eu-aposto-que.vercel.app/bet/${id}`,
   ogLocale: 'pt_BR',
-  // };
 });
 </script>
