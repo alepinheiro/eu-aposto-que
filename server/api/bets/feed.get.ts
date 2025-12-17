@@ -7,6 +7,5 @@ export default defineEventHandler(async (event) => {
   const limit = parseInt(getQuery(event).limit as string) || 20;
   const skip = parseInt(getQuery(event).skip as string) || 0;
   const bets = await betService.getFeed?.(limit, skip);
-  return { status: 200, bets: bets || [] };
+  return bets;
 });
-// ...existing code from bets-feed.get.ts...

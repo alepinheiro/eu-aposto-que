@@ -1,6 +1,6 @@
-import { BetParticipationSchema } from '~~/server/domain/BetParticipationSchema';
 import { BetParticipationService } from '~~/server/domain/services/BetParticipationService';
 import { MongoBetParticipationRepository } from '~~/server/infrastructure/MongoBetParticipationRepository';
+import { BetParticipationSchema } from '~~/shared/BetParticipationSchema';
 
 const ParticipateInput = BetParticipationSchema.omit({ id: true, createdAt: true });
 

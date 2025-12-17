@@ -9,17 +9,31 @@ export default defineEventHandler(async (event) => {
   try {
     const body = await readBody(event);
     const input = createBetInputSchema.parse(body);
+    const session = await getUserSession(event);
+    if (!session?.user) {
+      throw createError({
+        statusCode: 401,
+        statusMessage: 'Usuário não autenticado',
+      });
+    }
     const bet = await betService.createBet({
       statement: input.statement,
-      createdAt: new Date(),
-      createdBy: input.createdBy,
+      createdBy: session.user.id,
     });
-    return { bet };
+
+    return bet;
   }
   catch (err) {
     if (err instanceof ValidationError || (err as any).name === 'ZodError') {
-      return { error: 'Invalid input', details: (err as any).errors || (err as any).message };
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'Invalid input',
+        data: (err as any).errors || (err as any).message,
+      });
     }
-    return { error: 'Internal server error' };
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Internal server error',
+    });
   }
 });

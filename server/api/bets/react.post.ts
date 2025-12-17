@@ -1,6 +1,6 @@
-import { BetReactionSchema } from '~~/server/domain/BetReactionSchema';
 import { BetReactionService } from '~~/server/domain/services/BetReactionService';
 import { MongoBetReactionRepository } from '~~/server/infrastructure/MongoBetReactionRepository';
+import { BetReactionSchema } from '~~/shared/BetReactionSchema';
 
 const ReactInput = BetReactionSchema.omit({ id: true, createdAt: true });
 

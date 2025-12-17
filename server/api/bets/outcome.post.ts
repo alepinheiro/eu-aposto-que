@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event);
   const parse = ResolveInput.safeParse(body);
   if (!parse.success) {
-    return { status: 400, errors: parse.error.flatten() };
+    return { status: 400, errors: z.treeifyError(parse.error) };
   }
   const repo = new MongoBetOutcomeRepository();
   const service = new BetOutcomeService(repo);

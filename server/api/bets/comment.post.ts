@@ -1,6 +1,6 @@
-import { BetCommentSchema } from '~~/server/domain/BetCommentSchema';
 import { BetCommentService } from '~~/server/domain/services/BetCommentService';
 import { MongoBetCommentRepository } from '~~/server/infrastructure/MongoBetCommentRepository';
+import { BetCommentSchema } from '~~/shared/BetCommentSchema';
 
 const CommentInput = BetCommentSchema.omit({ id: true, createdAt: true, updatedAt: true });
 

@@ -1,6 +1,6 @@
-import { GroupSchema } from '~~/server/domain/GroupSchema';
 import { GroupService } from '~~/server/domain/services/GroupService';
 import { MongoGroupRepository } from '~~/server/infrastructure/MongoGroupRepository';
+import { GroupSchema } from '~~/shared/GroupSchema';
 
 const CreateGroupInput = GroupSchema.omit({ id: true, createdAt: true, updatedAt: true, memberIds: true });
 

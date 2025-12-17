@@ -1,6 +1,6 @@
-import { NotificationSchema } from '~~/server/domain/NotificationSchema';
 import { NotificationService } from '~~/server/domain/services/NotificationService';
 import { MongoNotificationRepository } from '~~/server/infrastructure/MongoNotificationRepository';
+import { NotificationSchema } from '~~/shared/NotificationSchema';
 
 const NotifyInput = NotificationSchema.omit({ id: true, createdAt: true, read: true });
 
