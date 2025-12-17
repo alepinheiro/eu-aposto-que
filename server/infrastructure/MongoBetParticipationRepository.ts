@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 import { getMongoDb } from '~~/server/infrastructure/database/mongoClient';
 import { BetParticipationSchema } from '../../shared/BetParticipationSchema';
 import type { BetParticipationEntity } from '../domain/BetParticipationEntity';
@@ -12,20 +13,22 @@ export class MongoBetParticipationRepository implements BetParticipationReposito
   }
 
   async create(input: Omit<BetParticipationEntity, 'id' | 'createdAt'>): Promise<BetParticipationEntity> {
-    const now = new Date();
-    const doc = {
+    const collection = await this.collection();
+    const result = await collection.insertOne({
       ...input,
-      createdAt: now,
-    };
-    const result = await (await this.collection()).insertOne(doc);
-    return {
-      ...doc,
-      id: result.insertedId.toHexString(),
-    };
+      userId: new ObjectId(input.userId),
+      betId: new ObjectId(input.betId),
+      createdAt: new Date(),
+    });
+    return this.map(result);
   }
 
   async findByBetAndUser(betId: string, userId: string): Promise<BetParticipationEntity | null> {
-    const doc = await (await this.collection()).findOne({ betId, userId });
+    const collection = await this.collection();
+    const doc = await collection.findOne({
+      betId: new ObjectId(betId),
+      userId: new ObjectId(userId),
+    });
     if (!doc) return null;
     return this.map(doc);
   }
@@ -35,7 +38,8 @@ export class MongoBetParticipationRepository implements BetParticipationReposito
       { $match: { betId } },
       { $group: { _id: '$type', count: { $sum: 1 } } },
     ];
-    const results = await (await this.collection()).aggregate(pipeline).toArray();
+    const collection = await this.collection();
+    const results = await collection.aggregate(pipeline).toArray();
     let agree = 0, disagree = 0;
     for (const r of results) {
       if (r._id === 'agree') agree = r.count;
@@ -45,7 +49,8 @@ export class MongoBetParticipationRepository implements BetParticipationReposito
   }
 
   async listByBet(betId: string): Promise<BetParticipationEntity[]> {
-    const docs = await (await this.collection()).find({ betId }).toArray();
+    const collection = await this.collection();
+    const docs = await collection.find({ betId }).toArray();
     return docs.map(this.map);
   }
 
@@ -53,6 +58,8 @@ export class MongoBetParticipationRepository implements BetParticipationReposito
     const parsed = BetParticipationSchema.safeParse({
       ...doc,
       id: doc._id?.toHexString() || doc.id,
+      betId: typeof doc.betId === 'string' ? doc.betId : doc.betId.toHexString(),
+      userId: typeof doc.userId === 'string' ? doc.userId : doc.userId.toHexString(),
     });
     if (!parsed.success) throw new Error('Invalid bet participation document');
     return parsed.data;
@@ -67,5 +74,16 @@ export class MongoBetParticipationRepository implements BetParticipationReposito
     await collection.createIndex({ betId: 1, userId: 1 }, { unique: true });
     await collection.createIndex({ betId: 1, type: 1 });
     await collection.createIndex({ createdAt: -1 });
+  }
+
+  async updateType(id: string, type: 'agree' | 'disagree'): Promise<BetParticipationEntity> {
+    const collection = await this.collection();
+    const result = await collection.findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      { $set: { type } },
+      { returnDocument: 'after' },
+    );
+    if (!result) throw new Error('Participação não encontrada para atualizar');
+    return this.map(result);
   }
 }
