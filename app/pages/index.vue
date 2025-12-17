@@ -33,11 +33,17 @@
 <script setup lang="ts">
 import { useBetStore } from '~/stores/bet.store';
 
+const { loggedIn } = useUserSession();
+
 const betStore = useBetStore();
 const betTitle = ref<string>('');
 
 const onClick = async () => {
   betStore.title = betTitle.value;
-  await navigateTo('/share');
+
+  if (loggedIn.value)
+    await navigateTo('/share');
+
+  await navigateTo('/login');
 };
 </script>

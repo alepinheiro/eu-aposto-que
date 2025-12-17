@@ -25,10 +25,11 @@
               name="description"
             >
               <Label>
-                Descrição do palpite (opcional)
+                Regras (opcional)
               </Label>
               <Textarea
                 class="w-full"
+                placeholder="R$10 cada palpite, ganhadores dividem o prêmio"
                 v-bind="componentField"
               />
             </VeeField>
@@ -41,19 +42,6 @@
                 Categoria (opcional)
               </Label>
               <Input
-                class="w-full"
-                v-bind="componentField"
-              />
-            </VeeField>
-
-            <VeeField
-              v-slot="{ componentField }"
-              name="description"
-            >
-              <Label>
-                Descrição do palpite (opcional)
-              </Label>
-              <Textarea
                 class="w-full"
                 v-bind="componentField"
               />
@@ -103,10 +91,11 @@
             <Button
               variant="outline"
               type="button"
-              @click="navigateTo('')"
+              @click="navigateTo('/')"
             >
               Voltar
             </Button>
+
             <Button type="submit">
               Criar palpite
             </Button>
@@ -130,20 +119,24 @@
 </template>
 
 <script setup lang="ts">
+import { toast } from 'vue-sonner';
 import { z } from 'zod';
 import { useBetStore } from '~/stores/bet.store';
+import type { Bet } from '~~/shared/BetSchema';
 
 const betStore = useBetStore();
 
 const { handleSubmit } = useForm({
-  validationSchema: z.object({
-    statement: z.string().min(5, 'O título deve ter no mínimo 5 caracteres'),
-    description: z.string().min(3, 'A descrição deve ter no mínimo 5 caracteres').optional(),
-    category: z.string().min(3, 'A categoria deve ter no mínimo 5 caracteres').optional(),
-    visibility: z.enum(['private', 'group', 'public']),
-    deadlineDate: z.coerce.date().optional(),
-    deadlineHour: z.coerce.date().optional(),
-  }),
+  validationSchema: toTypedSchema(
+    z.object({
+      statement: z.string().min(5, 'O título deve ter no mínimo 5 caracteres'),
+      description: z.string().min(3, 'A descrição deve ter no mínimo 5 caracteres').optional(),
+      category: z.string().min(3, 'A categoria deve ter no mínimo 5 caracteres').optional(),
+      visibility: z.enum(['private', 'group', 'public']).optional(),
+      deadlineDate: z.coerce.date().optional(),
+      deadlineHour: z.coerce.date().optional(),
+    }),
+  ),
   initialValues: {
     statement: betStore.title,
   },
@@ -151,9 +144,17 @@ const { handleSubmit } = useForm({
 
 const onSubmit = handleSubmit(
   async (values) => {
-    console.value(values);
+    const response = await $fetch<Bet>('/api/bets', {
+      method: 'POST',
+      body: values,
+    });
+
+    toast.success('Palpite criado com sucesso!');
+    await navigateTo(`/bet/${response.id}`);
   },
-  error =>
-    console.error(error),
+  (error) => {
+    toast.error('Erro ao criar palpite. Verifique os dados e tente novamente.');
+    console.error(error);
+  },
 );
 </script>
