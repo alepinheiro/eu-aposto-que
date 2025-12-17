@@ -21,6 +21,10 @@
         <DetailsParticipationButtons
           v-if="loggedIn"
           :bet-id="bet.id"
+          :counters="{
+            agree: bet.agreeCount,
+            disagree: bet.disagreeCount,
+          }"
         />
         <Button
           v-else
