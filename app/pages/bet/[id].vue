@@ -17,21 +17,8 @@
         </div>
       </CardHeader>
 
-      <CardContent class="flex flex-col md:flex-row gap-2 w-full">
-        <Button
-          class="w-full"
-          variant="outline"
-        >
-          <ThumbsUp />
-          Concordo
-        </Button>
-        <Button
-          class="w-full"
-          variant="outline"
-        >
-          <ThumbsDown />
-          Discordo
-        </Button>
+      <CardContent>
+        <DetailsParticipationButtons :bet-id="bet?.id" />
       </CardContent>
 
       <CardFooter>
@@ -59,7 +46,7 @@
       >
         <div class="flex flex-col gap-2 items-center">
           <Heart />
-          Reações
+          Curtidas
           <span>{{ bet?.agreeCount + bet?.disagreeCount }}</span>
         </div>
       </Button>
@@ -102,7 +89,7 @@
 </template>
 
 <script setup lang="ts">
-import { BadgeCheckIcon, Heart, MessageCircle, ThumbsDown, ThumbsUp, Users } from 'lucide-vue-next';
+import { BadgeCheckIcon, Heart, MessageCircle, Users } from 'lucide-vue-next';
 import type { Bet } from '~~/shared/BetSchema';
 
 const route = useRoute();
@@ -110,5 +97,36 @@ const id = route.params.id as string;
 
 const { data: bet } = await useFetch<Bet>(() => `/api/bets/${id}`, {
   method: 'GET',
+});
+
+useSeoMeta({
+  title: () => {
+    if (bet.value?.statement) {
+      return `Aposta: ${bet.value.statement}`;
+    }
+    return 'Detalhes da aposta';
+  },
+  ogTitle: () => {
+    if (bet.value?.statement) {
+      return `Aposta: ${bet.value.statement}`;
+    }
+    return 'Detalhes da aposta';
+  },
+  description: () => {
+    if (bet.value?.statement) {
+      return `Veja os detalhes e participe da aposta: "${bet.value.statement}".`;
+    }
+    return 'Veja os detalhes desta aposta.';
+  },
+  ogDescription: () => {
+    if (bet.value?.statement) {
+      return `Veja os detalhes e participe da aposta: "${bet.value.statement}".`;
+    }
+    return 'Veja os detalhes desta aposta.';
+  },
+  ogType: 'article',
+  ogUrl: `https://eu-aposto-que.vercel.app/bet/${id}`,
+  ogLocale: 'pt_BR',
+  // };
 });
 </script>
