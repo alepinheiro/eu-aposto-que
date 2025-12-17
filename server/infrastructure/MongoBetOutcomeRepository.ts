@@ -1,7 +1,7 @@
 import type { BetOutcomeEntity } from '~~/server/domain/BetOutcomeEntity';
 import type { BetOutcomeRepository } from '~~/server/domain/BetOutcomeRepository';
-import { BetOutcomeSchema } from '~~/server/domain/BetOutcomeSchema';
 import { getMongoDb } from '~~/server/infrastructure/database/mongoClient';
+import { BetOutcomeSchema } from '~~/shared/BetOutcomeSchema';
 
 const COLLECTION = 'bet_outcomes';
 

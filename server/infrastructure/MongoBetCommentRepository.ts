@@ -1,8 +1,8 @@
 import { ObjectId } from 'mongodb';
 import type { BetCommentEntity } from '~~/server/domain/BetCommentEntity';
 import type { BetCommentRepository } from '~~/server/domain/BetCommentRepository';
-import { BetCommentSchema } from '~~/server/domain/BetCommentSchema';
 import { getMongoDb } from '~~/server/infrastructure/database/mongoClient';
+import { BetCommentSchema } from '~~/shared/BetCommentSchema';
 
 const COLLECTION = 'bet_comments';
 

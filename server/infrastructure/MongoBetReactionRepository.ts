@@ -1,7 +1,7 @@
 import type { BetReactionEntity } from '~~/server/domain/BetReactionEntity';
 import type { BetReactionRepository } from '~~/server/domain/BetReactionRepository';
-import { BetReactionSchema } from '~~/server/domain/BetReactionSchema';
 import { getMongoDb } from '~~/server/infrastructure/database/mongoClient';
+import { BetReactionSchema } from '~~/shared/BetReactionSchema';
 
 const COLLECTION = 'bet_reactions';
 

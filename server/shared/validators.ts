@@ -6,5 +6,5 @@ export const createBetInputSchema = z.object({
 });
 
 export const betIdParamSchema = z.object({
-  id: z.string().length(24, 'Invalid bet id'),
+  id: z.string(),
 });

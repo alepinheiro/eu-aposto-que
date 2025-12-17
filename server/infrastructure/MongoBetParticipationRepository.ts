@@ -1,7 +1,7 @@
 import { getMongoDb } from '~~/server/infrastructure/database/mongoClient';
+import { BetParticipationSchema } from '../../shared/BetParticipationSchema';
 import type { BetParticipationEntity } from '../domain/BetParticipationEntity';
 import type { BetParticipationRepository } from '../domain/BetParticipationRepository';
-import { BetParticipationSchema } from '../domain/BetParticipationSchema';
 
 const COLLECTION = 'bet_participations';
 

@@ -1,8 +1,8 @@
 import { ObjectId } from 'mongodb';
 import type { GroupEntity } from '~~/server/domain/GroupEntity';
 import type { GroupRepository } from '~~/server/domain/GroupRepository';
-import { GroupSchema } from '~~/server/domain/GroupSchema';
 import { getMongoDb } from '~~/server/infrastructure/database/mongoClient';
+import { GroupSchema } from '~~/shared/GroupSchema';
 
 const COLLECTION = 'groups';
 

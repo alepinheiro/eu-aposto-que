@@ -1,14 +1,17 @@
+import { ObjectId } from 'mongodb';
 import type { BetEntity } from '~~/server/domain/BetEntity';
 import type { BetRepository } from '~~/server/domain/BetRepository';
 
 export class BetService {
   constructor(private readonly betRepository: BetRepository) {}
 
-  async createBet(input: Omit<BetEntity, 'id' | 'agreeCount' | 'disagreeCount'>): Promise<BetEntity> {
+  async createBet(input: Omit<BetEntity, 'id' | 'agreeCount' | 'disagreeCount' | 'createdAt'>): Promise<BetEntity> {
     const bet: Omit<BetEntity, 'id'> = {
       ...input,
       agreeCount: 0,
       disagreeCount: 0,
+      createdAt: new Date(),
+      createdBy: new ObjectId(input.createdBy),
     };
     return this.betRepository.create(bet);
   }

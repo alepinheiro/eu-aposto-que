@@ -1,8 +1,8 @@
 import { ObjectId } from 'mongodb';
 import type { NotificationEntity } from '~~/server/domain/NotificationEntity';
 import type { NotificationRepository } from '~~/server/domain/NotificationRepository';
-import { NotificationSchema } from '~~/server/domain/NotificationSchema';
 import { getMongoDb } from '~~/server/infrastructure/database/mongoClient';
+import { NotificationSchema } from '~~/shared/NotificationSchema';
 
 const COLLECTION = 'notifications';
 

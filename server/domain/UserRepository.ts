@@ -1,4 +1,4 @@
-import type { UserEntity } from './UserEntity';
+import type { UserEntity } from '~~/server/domain/UserEntity';
 
 export interface UserRepository {
   create(user: Omit<UserEntity, 'id' | 'createdAt' | 'updatedAt'>): Promise<UserEntity>;

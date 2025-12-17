@@ -1,8 +1,8 @@
 import { ObjectId } from 'mongodb';
 import type { UserEntity } from '~~/server/domain/UserEntity';
 import type { UserRepository } from '~~/server/domain/UserRepository';
-import { UserSchema } from '~~/server/domain/UserSchema';
 import { getMongoDb } from '~~/server/infrastructure/database/mongoClient';
+import { UserSchema } from '~~/shared/UserSchema';
 
 const COLLECTION = 'users';
 
