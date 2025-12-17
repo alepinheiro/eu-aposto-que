@@ -50,7 +50,7 @@
         <div class="flex flex-col gap-2 items-center">
           <Users />
           Participando
-          <span>{{ bet?.agreeCount + bet?.disagreeCount }}</span>
+          <span>{{ bet?.participations.length ?? 0 }}</span>
         </div>
       </Button>
 
@@ -61,7 +61,7 @@
         <div class="flex flex-col gap-2 items-center">
           <Heart />
           Curtidas
-          <span>{{ bet?.agreeCount + bet?.disagreeCount }}</span>
+          <span>{{ bet?.reactions.length ?? 0 }}</span>
         </div>
       </Button>
 
@@ -72,7 +72,7 @@
         <div class="flex flex-col gap-2 items-center">
           <MessageCircle />
           Comentários
-          <span>{{ bet?.agreeCount + bet?.disagreeCount }}</span>
+          <span>{{ bet?.comments.length ?? 0 }}</span>
         </div>
       </Button>
     </div>
@@ -104,6 +104,9 @@
 
 <script setup lang="ts">
 import { BadgeCheckIcon, Heart, MessageCircle, Users } from 'lucide-vue-next';
+import type { BetComment } from '~~/shared/BetCommentSchema';
+import type { BetParticipation } from '~~/shared/BetParticipationSchema';
+import type { BetReaction } from '~~/shared/BetReactionSchema';
 import type { Bet } from '~~/shared/BetSchema';
 
 const route = useRoute();
@@ -111,8 +114,18 @@ const id = route.params.id as string;
 const { loggedIn, fetch } = useUserSession();
 
 await fetch();
-const { data: bet } = await useFetch<Bet>(() => `/api/bets/${id}`, {
+interface Response extends Bet {
+  comments: Array<BetComment>;
+  participations: Array<BetParticipation>;
+  reactions: Array<BetReaction>;
+}
+const { data: bet } = await useFetch<Response>(() => `/api/bets/${id}`, {
   method: 'GET',
+  query: {
+    includeComments: true,
+    includeParticipations: true,
+    includeReactions: true,
+  },
 });
 
 useSeoMeta({
