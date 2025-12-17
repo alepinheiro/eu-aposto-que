@@ -17,6 +17,6 @@ const redirect = route.query.redirect as string | undefined;
 const { loggedIn, fetch } = useUserSession();
 await fetch();
 if (loggedIn.value) {
-  await navigateTo(redirect || '/bets');
+  await navigateTo(redirect || '/feed');
 }
 </script>
