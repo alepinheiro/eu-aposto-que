@@ -138,6 +138,7 @@ useSeoMeta({
   },
   ogType: 'article',
   ogUrl: `https://eu-aposto-que.vercel.app/bet/${id}`,
+  ogImage: 'https://eu-aposto-que.vercel.app/og-image.png',
   ogLocale: 'pt_BR',
 });
 </script>
