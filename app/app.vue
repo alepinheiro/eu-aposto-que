@@ -1,9 +1,10 @@
 <template>
-  <div class="p-5">
+  <div>
     <Toaster />
     <main>
+      <TopBar />
       <NuxtLayout>
-        <NuxtPage />
+        <NuxtPage class="p-5" />
       </NuxtLayout>
     </main>
   </div>

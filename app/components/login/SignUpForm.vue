@@ -11,34 +11,44 @@
       </CardHeader>
 
       <CardContent class="flex flex-col gap-2">
-        <VeeField
+        <FormField
           v-slot="{ componentField }"
           name="username"
         >
-          <Label>
-            Usuário
-          </Label>
-          <Input
-            class="w-full"
-            autocomplete="username"
-            v-bind="componentField"
-          />
-        </VeeField>
+          <FormItem>
+            <FormLabel>
+              Usuário
+            </FormLabel>
+            <FormControl>
+              <Input
+                class="w-full"
+                autocomplete="username"
+                v-bind="componentField"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
 
-        <VeeField
+        <FormField
           v-slot="{ componentField }"
           name="password"
         >
-          <Label>
-            Senha
-          </Label>
-          <Input
-            type="password"
-            autocomplete="new-password"
-            class="w-full"
-            v-bind="componentField"
-          />
-        </VeeField>
+          <FormItem>
+            <FormLabel>
+              Senha
+            </FormLabel>
+            <FormControl>
+              <Input
+                type="password"
+                autocomplete="new-password"
+                class="w-full"
+                v-bind="componentField"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
       </CardContent>
 
       <CardFooter>
@@ -54,6 +64,13 @@
 </template>
 
 <script setup lang="ts">
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { toast } from 'vue-sonner';
 import { LoginSchema } from '~~/shared/UserSchema';
 
