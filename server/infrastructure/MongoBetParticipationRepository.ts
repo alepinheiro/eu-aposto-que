@@ -50,7 +50,7 @@ export class MongoBetParticipationRepository implements BetParticipationReposito
 
   async listByBet(betId: string): Promise<BetParticipationEntity[]> {
     const collection = await this.collection();
-    const docs = await collection.find({ betId }).toArray();
+    const docs = await collection.find({ betId: new ObjectId(betId) }).toArray();
     return docs.map(this.map);
   }
 
